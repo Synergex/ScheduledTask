@@ -1,0 +1,51 @@
+
+namespace SynPSG
+
+	function ExpandLogicalInFileSpec, string
+		required inout fileSpec, String
+		endparams
+		stack record 
+			colon,			int
+			file,			string
+			path,			string
+			translation,	a256
+			length,			i4
+		endrecord
+	proc
+		;;This routine assumes a file spec like LOGICAL:file.ext
+		;;and returns D:\path\to\file.ext
+
+		if ((colon=%instr(1,fileSpec,":")) && (!%instr(1,fileSpec,"\"))) then
+		begin
+			;;We have a : and no \
+			
+			xcall getlog(fileSpec(1:colon-1),translation,length)
+			path = %atrim(translation)
+
+			;;Looks like we have a logical name, but is it JUST a logical name, or is there also a file name?
+			if (colon==%trim(fileSpec)) then 
+			begin
+				;;Just a logical, just return the translation
+				freturn path
+			end
+			else
+			begin
+				;;Also a file spec
+				if (path(%trim(path):1)!="\")
+					path = path + "\"
+				file = fileSpec(colon+1,%trim(fileSpec))
+				freturn path + file
+			end
+		end
+		else
+		begin
+			;;No : or both : and \ 
+			;;Don't mess with it!
+			freturn fileSpec
+		end
+
+	endfunction
+
+endnamespace
+
+

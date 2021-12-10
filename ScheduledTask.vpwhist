@@ -1,0 +1,54 @@
+[Global]
+CurrentProject=ScheduledTask.vpj
+[ProjectDates]
+ClassLibrary.vpj=20141016200442000
+ScheduledTask.vpj=20141017175521000
+[ActiveConfig]
+ScheduledTask.vpj=Debug32
+ClassLibrary.vpj=Debug32
+[TreeExpansion2]
++ ClassLibrary.vpj
+  + Source Files
+    - ExpandLogicalInFileSpec.dbl
+    - WinScheduledTask.dbl
+  + Header Files
+  + Other Files
+- ScheduledTask.vpj
+  + Source Files
+    - ScheduledTask.dbl
+    - ScheduledTaskCreate.dbl
+    - ScheduledTaskGetStatus.dbl
+    - ScheduledTaskRemove.dbl
+    - ScheduledTaskRunNow.dbl
+    - ScheduledTasksSummary.dbl
+  + Header Files
+  + Toolkit Script Files
+  + Other Files
+    - ReadMe.txt
+scroll:0
+[State]
+SCREEN: 1920 1080 130 130 1440 759 0 0 M 0 0 0 0 1636 598 0
+CWD: \ScheduledTask
+FILEHIST: 9
+ReadMe.txt
+WinScheduledTask.dbl
+ScheduledTaskRunNow.dbl
+ScheduledTasksSummary.dbl
+ScheduledTaskRemove.dbl
+ExpandLogicalInFileSpec.dbl
+ScheduledTask.dbl
+ScheduledTaskCreate.dbl
+ScheduledTaskGetStatus.dbl
+PROJECT_CACHE: 2
+20141016200442000 2 C:\ScheduledTask\ClassLibrary.vpj
+ExpandLogicalInFileSpec.dbl
+WinScheduledTask.dbl
+20141017175521000 7 C:\ScheduledTask\ScheduledTask.vpj
+ScheduledTask.dbl
+ScheduledTaskCreate.dbl
+ScheduledTaskGetStatus.dbl
+ScheduledTaskRemove.dbl
+ScheduledTaskRunNow.dbl
+ScheduledTasksSummary.dbl
+ReadMe.txt
+TBCLASS: 0 0

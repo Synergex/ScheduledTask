@@ -1,0 +1,93 @@
+;;*****************************************************************************
+;;
+;; Title:       ScheduledTaskCreate.dbl
+;;
+;; Type:        Program
+;;
+;; Description: A program that demonstrates how to start a Traditional
+;;              Synergy application as a Windows Scheduled task.
+;;
+;; Date:        23rd September 2014
+;;
+;; Author:      Steve Ives, Synergex Professional Services Group
+;;              http://www.synergex.com
+;;
+;;*****************************************************************************
+;;
+;; Copyright (c) 2014, Synergex International, Inc.
+;; All rights reserved.
+;;
+;; Redistribution and use in source and binary forms, with or without
+;; modification, are permitted provided that the following conditions are met:
+;;
+;; * Redistributions of source code must retain the above copyright notice,
+;;   this list of conditions and the following disclaimer.
+;;
+;; * Redistributions in binary form must reproduce the above copyright notice,
+;;   this list of conditions and the following disclaimer in the documentation
+;;   and/or other materials provided with the distribution.
+;;
+;; THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+;; AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+;; IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+;; ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
+;; LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+;; CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+;; SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+;; INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+;; CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+;; ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+;; POSSIBILITY OF SUCH DAMAGE.
+;;
+;;*****************************************************************************
+
+import SynPSG.Windows
+
+main ScheduledTaskCreate
+
+	record
+		tt,				i4
+		task,			@ScheduledTask
+		errorMessage, 	string
+	endrecord
+
+proc
+
+	;IMPORTANT:		This program creates a scheduled task called Synergy Task 1 that runs
+	;				under the context of the SYSTEM account. The program being run is
+	;				ScheduledTask.dbr, and this demo environment links the program against
+	;				EXE:StevesLibrary.elb. So in order for the scheduled task to be able
+	;				to execute you must define EXE: either system wide, or in synergy.ini
+	;				If you decide to use synergy.ini then you can place the setting either
+	;				in the [synergy] section for all programs, or in the [ScheduledTask]
+	;				section so that it only affects the environment for the one program.
+	
+	open(tt=0,i,'tt:')
+
+	task = new ScheduledTask("\Synergy Tasks\Synergy Task 1","EXE:ScheduledTask.dbr")
+
+	;;Optional settings	
+
+	;task.Elevate			= true				;;Use dbspriv.exe instead of dbs.exe
+	;task.System			= "system_name"		;;System to run/control the scheduled task on
+	;task.User				= "username"		;;Username used to MANAGE the task (default is current user)
+	;task.Password			= "password"		;;Password for account used to MANAGE the task
+	;task.RunAsUser			= "username"		;;Username used to RUN the task (default is "SYSTEM")
+	;task.RunAsPassword		= "password"		;;Password for account used to RUN the task
+		
+	if (task.Create(TaskSchedule.Minute,1,errorMessage)) then
+	begin
+		writes(tt,"Task created.")
+		writes(tt,"Check for TEMP:scheduled_task_yyyymmddhhmmssuuuuuu.txt files.")
+		writes(tt,"Task will be automatically run every minute until stopped or removed.")
+	end
+	else
+	begin
+		writes(tt,"ERROR: " + errorMessage)
+		writes(tt,"Command was: " + task.Command)
+	end
+	
+	close tt
+	stop
+	
+endmain
